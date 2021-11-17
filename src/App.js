@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { Cart } from '@chec/commerce.js/features/cart';
+import React, {useState, useEffect} from 'react'
+
+import { Products, Navbar } from './components'
+import {commerce} from './lib/commerce' 
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    const [products, setProducts] = useState([]);
 
-export default App;
+    const fetchProducts = async () => {
+        const {data} = await commerce.products.list();
+
+        setProducts(data);
+    }
+
+    useEffect(() => {
+        fetchProducts()
+    }, []);
+
+
+    return (
+        <div>
+            <Navbar />
+            <Products products = {products}/>
+        </div>
+    )
+}
+create the Cart 
+
+//https://github.com/adrianhajdin/project_e_commerce/blob/main/src/components/index.js
+
+export default App
